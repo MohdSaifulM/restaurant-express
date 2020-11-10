@@ -1,0 +1,38 @@
+<div>
+  <form action="/edit/<%= restaurant._id %>?_method=PUT" method="POST">
+    <h5>Restaurant Information</h5>
+    <div>
+      <input
+        type="text"
+        value="<%= restaurant.name %>"
+        name="name"
+        placeholder="Restaurant Name"
+      />
+    </div>
+    <div>
+      <input
+        type="text"
+        name="location"
+        value="<%= restaurant.location %>"
+        placeholder="Location"
+      />
+    </div>
+    <div>
+      <input
+        type="text"
+        name="cuisineData"
+        value="<%= restaurant.cuisine %>"
+        placeholder="Type of Cuisine"
+      />
+    </div>
+    <div>
+      <input
+        type="text"
+        name="owner"
+        value="<%= restaurant.owner %>"
+        placeholder="Name of Owner"
+      />
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
