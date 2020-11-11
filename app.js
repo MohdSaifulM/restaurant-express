@@ -16,84 +16,16 @@ app.use(require("express-ejs-layouts"));
 app.use(methodOverride("_method"));
 
 //connect to mongodb
-mongoose.connect(process.env.MONGODB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-},
-    (err) => {
-        console.log("MongoDB Connected")
-    }
-)
+require("./lib/connection");
 
-//routes
-app.get("/", async (req, res) => {
-    let restaurants = await Restaurant.find();
-    try {
-        res.render("restaurants/index", { restaurants });
-    } catch (error) {
-        console.log(error)
-    }
+//middleware for routes
+app.get("/", (req, res) => {
+    res.redirect("/restaurants")
 })
-
-app.get("/new", (req, res) => {
-    res.render("restaurants/new");
-})
-
-app.post("/new", (req, res) => {
-    let { name, location, cuisineData, owner } = req.body;
-    let cuisine = cuisineData.split(",");
-    let data = {
-        name,
-        location,
-        cuisine,
-        owner,
-    };
-
-    //build model for save
-    let restaurant = new Restaurant(data)
-
-    restaurant.save().then((success) => {
-        res.redirect("/")
-    }).catch((error) => {
-        console.log(error);
-    })
-})
-
-app.get("/show/:id", async (req, res) => {
-    try {
-        let restaurant = await Restaurant.findById(req.params.id)
-        res.render("restaurants/show", { restaurant });
-    } catch (error) {
-        console.log(error);
-    }
-})
-
-app.get("/edit/:id", async (req, res) => {
-    try {
-        let restaurant = await Restaurant.findById(req.params.id);
-        res.render("restaurants/edit", { restaurant });
-    } catch (error) {
-        console.log(error);
-    }
-})
-
-app.put("/edit/:id", (req, res) => {
-    let { name, location, cuisineData, owner } = req.body;
-    let cuisine = cuisineData.split(",");
-    let data = {
-        name,
-        location,
-        cuisine,
-        owner,
-    };
-    Restaurant.findByIdAndUpdate(req.params.id, data).then((success) => {
-        res.redirect(`/show/${req.params.id}`);
-    }).catch((error) => {
-        console.log(error);
-    })
-})
-
+app.use("/restaurants", require("./routes/restaurants.routes"));
+app.use("/new", require("./routes/new.routes"));
+app.use("/show", require("./routes/show.routes"));
+app.use("/edit", require("./routes/edit.routes"));
 app.delete("/delete/:id", (req, res) => {
     Restaurant.findByIdAndDelete(req.params.id).then((success) => {
         res.redirect("/");

@@ -4,7 +4,10 @@ const { Schema } = mongoose;
 const restaurantSchema = new Schema({
     name: String,
     location: String,
-    cuisine: [String],
+    cuisine: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cuisine",
+    }],
     owner: String
 })
 
