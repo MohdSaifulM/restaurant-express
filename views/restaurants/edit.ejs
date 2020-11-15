@@ -1,38 +1,55 @@
-<div>
-  <form action="/edit/<%= restaurant._id %>?_method=PUT" method="POST">
-    <h5>Restaurant Information</h5>
-    <div>
-      <input
-        type="text"
-        value="<%= restaurant.name %>"
-        name="name"
-        placeholder="Restaurant Name"
-      />
+<div class="container mx-auto">
+  <h3 class="font-weight-bold mb-4">Edit Restaurant</h3>
+  <div class="row"> 
+    <div class="col-4">
+      <form class="" action="/edit/<%= restaurant._id %>?_method=PUT" method="POST">
+        <div class="form-group">
+          <label for="name">Restaurant Name</label>
+          <input type="text" class="form-control" name="name" value="<%= restaurant.name %>">
+        </div>
+        <div class="form-group">
+          <label for="owner">Name of Owner</label>
+          <input type="text" class="form-control" name="owner" value="<%= restaurant.owner %>">
+        </div>
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" class="form-control" name="location" value="<%= restaurant.location %>">
+        </div>
+        <div class="form-group">
+          <% cuisine.forEach(el => { %>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="<%= el._id %>" id="defaultCheck1" name="cuisines">
+            <label class="form-check-label" for="cuisines">
+              <%= el.cuisine %>
+            </label>
+          </div>
+          <% }) %>
+        </div>
+        <button type="submit" class="btn btn-outline-secondary block">Submit</button>
+      </form>
     </div>
-    <div>
-      <input
-        type="text"
-        name="location"
-        value="<%= restaurant.location %>"
-        placeholder="Location"
-      />
+    <div class="col-4">
+      <form class="form-group" action="/cuisine/" method="POST">New Cuisine</label>
+        <input type="text" class="form-control" name="newCuisine">
+        <button type="submit" class="btn btn-outline-secondary block">
+          Add new cuisine
+        </button>
+      </form>
     </div>
-    <div>
-      <input
-        type="text"
-        name="cuisineData"
-        value="<%= restaurant.cuisine %>"
-        placeholder="Type of Cuisine"
-      />
+    <div class="col-4">
+      <ul class="list-group mb-3">
+        <label for="cuisine">Cuisine</label>
+        <% restaurant.cuisine.forEach( cuisine => { %>
+        <li class="list-group-item d-flex justify-content-between" name="cuisine" value="<%= cuisine._id %>">
+          <div>
+            <%= cuisine.cuisine %>
+          </div>
+          <form method="POST" action="/edit/<%= restaurant._id %>/<%= cuisine._id %>?_method=PUT">
+            <button class="btn btn-outline-secondary block">Delete</button>
+          </form>
+        </li>
+        <% })%>
+      </ul>
     </div>
-    <div>
-      <input
-        type="text"
-        name="owner"
-        value="<%= restaurant.owner %>"
-        placeholder="Name of Owner"
-      />
-    </div>
-    <button type="submit">Submit</button>
-  </form>
+  </div>
 </div>

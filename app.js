@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 
 //models
 const Restaurant = require('./models/restaurant.model');
+const Cuisine = require("./models/cuisine.model");
 
 //middlewares
 app.use(express.urlencoded({ extended: true }));
@@ -23,7 +24,6 @@ app.get("/", (req, res) => {
     res.redirect("/restaurants")
 })
 app.use("/restaurants", require("./routes/restaurants.routes"));
-app.use("/new", require("./routes/new.routes"));
 app.use("/show", require("./routes/show.routes"));
 app.use("/edit", require("./routes/edit.routes"));
 app.delete("/delete/:id", (req, res) => {
@@ -32,6 +32,20 @@ app.delete("/delete/:id", (req, res) => {
     }).catch((error) => {
         console.log(error);
     })
+});
+app.post("/cuisine", async (req, res) => {
+    try {
+        let cuisineData = {
+            cuisine: req.body.newCuisine,
+        };
+        //restaurant saved
+        let cuisine = new Cuisine(cuisineData);
+        await cuisine.save();
+
+        res.redirect('back');
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 //listen

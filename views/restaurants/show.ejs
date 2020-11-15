@@ -1,17 +1,19 @@
-<div>
-    <h5> Restaurant Name: <%= restaurant.name %></h5>
+<div class="container mx-0">
+    <div class="card bg-light mb-3" style="max-width: 18rem;">
+        <div class="card-header font-weight-bold"><%= restaurant.name %>
+            <div class="font-weight-lighter">Owned by: <%= restaurant.owner %></div>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title"> <%= restaurant.location %></h5>
+            <p class="card-text">
+                Cuisine Types: <% restaurant.cuisine.forEach( cuisine => { %>
+                <li>
+                    <%= cuisine.cuisine %>
+                </li>
+                <% })%>
+            </p>
+        </div>
+        <a href="/edit/<%=restaurant._id %>" class="btn btn-outline-secondary block">Edit restaurant</a>
+    </div>
 </div>
-<div>
-    <h5> Location: <%= restaurant.location %></h5>
-</div>
-<div>
-    <h5> Cuisine Types: <% restaurant.cuisine.forEach( cuisine => { %>
-        <li>
-            <%= cuisine %>
-        </li>
-        <% })%>
-    </h5>
-</div>
-<div>
-    <h6> Owner: <%= restaurant.owner %></h6>
-</div>
+

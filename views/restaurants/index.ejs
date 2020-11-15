@@ -1,17 +1,55 @@
-<h4>All Restaurants</h4>
-<div>
-    <ul>
-        <% restaurants.forEach( el => { %>
-            <li>
-                <%= el.name %> 
-                <a href="/show/<%=el._id %>">Show</a>
-                <a href="/edit/<%=el._id %>">Edit</a>
-                <form method="POST" action="/delete/<%= el._id %>?_method=DELETE">
-                    <button type="submit">Delete</button>
-                </form>
-            </li>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <form class="" action="/restaurants" method="POST">
+                <div class="form-group">
+                    <label for="name">Restaurant Name</label>
+                    <input type="text" class="form-control" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="owner">Name of Owner</label>
+                    <input type="text" class="form-control" name="owner">
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" class="form-control" name="location">
+                </div>
+                <div class="form-group">
+                    <% cuisines.forEach(el => { %>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="<%= el._id %>" id="defaultCheck1"
+                            name="cuisines">
+                        <label class="form-check-label" for="cuisines">
+                            <%= el.cuisine %>
+                        </label>
+                    </div>
+                    <% }) %>
+                </div>
+                <button type="submit" class="btn btn-outline-secondary block">Submit</button>
+            </form>
+        </div>
+        <div class="col-4">
+            <form class="form-group" action="/cuisine" method="POST">New Cuisine</label>
+                <input type="text" class="form-control" name="newCuisine">
+                <button type="submit" class="btn btn-outline-secondary block">
+                    Add new cuisine
+                </button>
+            </form>
+        </div>
+        <div class="col-4">
+            <% restaurants.forEach( el => { %>
+            <div class="card border-secondary my-3">
+                <div class="card-header font-weight-bold">
+                    <%= el.name %>
+                    <form method="POST" action="/delete/<%= el._id %>?_method=DELETE">
+                        <button type="submit" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </form>
+                </div>
+                <a href="/show/<%=el._id %>" class="btn btn-outline-secondary block">More details</a>
+            </div>
             <% })%>
-    </ul>
+        </div>
+    </div>
 </div>
-
-<a href="/new">Add</a> 
